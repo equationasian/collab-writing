@@ -1,5 +1,6 @@
 package com.example.collab_writing.login;
 
+import com.example.collab_writing.user.Author;
 import com.example.collab_writing.user.AuthorDetails;
 import com.example.collab_writing.user.AuthorDetailsService;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -25,15 +27,15 @@ public class LoginService {
     private AuthenticationManager authenticationManager;
 
     public boolean authenticate(LoginAuthor author) {
-        /*try {
-            UserDetails authenticatedAuthor = authorDetailsService.loadUserByUsername(author.username());
-        }
-        catch (NoSuchElementException e) {
-            log.warn("User does not exist", e);
-            return false;
-        }*/
+        Authentication auth;
 
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(author.username(), author.password()));
+        try {
+            auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(author.username(), author.password()));
+        }
+        catch (Exception e) {
+            return false;
+        }
+
         return true;
     }
 }
