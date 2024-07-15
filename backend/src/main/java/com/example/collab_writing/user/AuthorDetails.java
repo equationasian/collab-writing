@@ -44,4 +44,8 @@ public class AuthorDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public String getEmail() {
+        return author.getEmail();
+    }
 }

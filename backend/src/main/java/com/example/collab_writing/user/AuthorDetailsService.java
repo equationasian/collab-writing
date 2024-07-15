@@ -22,9 +22,14 @@ public class AuthorDetailsService implements UserDetailsService {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws NoSuchElementException {
+    public UserDetails loadUserByUsername(String username) {
         Optional<Author> author = authorRepository.findByUsername(username);
         return author.map(AuthorDetails::new).orElseThrow();
+    }
+
+    public Author getAuthor(String username) {
+        Optional<Author> author = authorRepository.findByUsername(username);
+        return author.orElseThrow();
     }
 
     public void registerUser(Author author) {
